@@ -1,28 +1,34 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect,useState } from "react";
-import { fetchGreetings } from "../store/greetingReducer";
+import { useEffect, useState } from "react";
+import { fetchGreeting } from "../store/greetingReducer";
 
 export default function Greetings() {
-const dispatch = useDispatch();
-const { greeting, status, loading, error } = useSelector(state => state.greeting);
-useEffect(() => {
-  dispatch(fetchGreetings());
-}, [dispatch]);
+  const dispatch = useDispatch();
+  const { greeting, loading, error } = useSelector(state => state.greeting);
+  console.log(greeting);
+  useEffect(() => {
+    dispatch(fetchGreeting());
+  }, []);
 
-const handler = () => {
-  dispatch(fetchGreetings());
-}
+  const handler = () => {
+    dispatch(fetchGreeting());
+  }
 
-return(
-  <div>
-    <h1>Greetings</h1>
-    {loading && <p>Loading...</p>}
-    {error && <p>Something went wrong!</p>}
-    {status === "success" && <p>{greeting}</p>}
-    {status === "failed" && <p>Failed to fetch greeting</p>}
-    {!loading && !error && status !== "success" && <button className="btn btn-primary" onClick={handler}>Click the button to fetch a greeting</button>}
-  </div>
+  return (
+    <div className="container mt-3">
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <h1>Greetings</h1>
+        {loading &&
+          <div className="spinner-border" role="status">
+            <span className="sr-only"></span>
+          </div>}
+        {error && <h2>Something went wrong!</h2>}
+        {!loading && <p>{greeting}</p>}
+        {!loading && !error && <button className="btn btn-primary" onClick={handler}>Click the button to fetch a greeting</button>}
+      </div>
+    </div>
 
-)
+
+  )
 }
