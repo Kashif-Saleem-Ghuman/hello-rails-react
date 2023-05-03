@@ -14,21 +14,20 @@ export const greetingSlice = createSlice({
     loading: false,
     error: false,
   },
-  reducers: {},
-  extraReducers: {
-    [fetchGreeting.pending]: (state, action) => {
-      const newState = { ...state, loading: true, error: false };
-      return newState;
-    },
-    [fetchGreeting.fulfilled]: (state, action) => {
-      const newState = { ...state, loading: false, greeting: action.payload };
-      return newState;
-    },
-    [fetchGreeting.rejected]: (state, action) => {
-      const newState = { ...state, loading: false, error: true };
-      return newState;
+  extraReducers: (builder) => {
+    builder.addCase(fetchGreeting.pending, (state, action) => {
+      state.loading = true;
+    }),
+    builder.addCase(fetchGreeting.fulfilled, (state,action) => {
+      state.loading = false;
+      state.greeting = action.payload;
+    }),
+    builder.addCase(fetchGreeting.rejected, (state, action) => {
+      console.log("error: ", action.payload)
+      state.error = true;
     }
-  }
+    )
+  },
 });
 
 export default greetingSlice.reducer;
