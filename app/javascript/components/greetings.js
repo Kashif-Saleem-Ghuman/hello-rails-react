@@ -6,7 +6,6 @@ import { fetchGreeting } from "../store/greetingReducer";
 export default function Greetings() {
   const dispatch = useDispatch();
   const { greeting, loading, error } = useSelector(state => state.greeting);
-  console.log(greeting);
   useEffect(() => {
     dispatch(fetchGreeting());
   }, []);
